@@ -1,0 +1,39 @@
+# ARM-compatible OpenShift CLI image
+# Alternative to quay.io/openshift/origin-cli:latest for ARM processors
+
+FROM registry.access.redhat.com/ubi9/ubi-minimal:latest
+
+# Set OpenShift version - can be overridden at build time
+ARG OC_VERSION=4.16.0
+
+# Install required packages
+USER root
+RUN microdnf update -y && \
+    microdnf install -y tar gzip && \
+    microdnf clean all
+
+# Create oc user and group
+RUN groupadd -r oc && useradd -r -g oc oc
+
+# Download and install ARM64 OpenShift CLI
+WORKDIR /tmp
+RUN curl -L "https://mirror.openshift.com/pub/openshift-v4/aarch64/clients/ocp/${OC_VERSION}/openshift-client-linux-${OC_VERSION}.tar.gz" -o oc.tar.gz && \
+    tar -xzf oc.tar.gz && \
+    mv oc /usr/local/bin/ && \
+    mv kubectl /usr/local/bin/ && \
+    chmod +x /usr/local/bin/oc /usr/local/bin/kubectl && \
+    rm -rf /tmp/*
+
+# Verify installation
+RUN oc version --client && kubectl version --client
+
+# Set up working directory and user
+WORKDIR /workspace
+RUN chown -R oc:oc /workspace
+
+# Switch to non-root user
+USER oc
+
+# Set entrypoint
+ENTRYPOINT ["oc"]
+CMD ["help"]
