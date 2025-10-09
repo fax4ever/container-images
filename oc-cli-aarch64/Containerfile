@@ -4,7 +4,7 @@
 FROM registry.access.redhat.com/ubi9/ubi-minimal:latest
 
 # Set OpenShift version - can be overridden at build time
-ARG OC_VERSION=4.16.0
+ARG OC_VERSION=4.19.9
 
 # Install required packages
 USER root
