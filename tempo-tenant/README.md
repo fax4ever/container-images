@@ -1,25 +1,11 @@
 # Tempo Tenant RBAC Configuration
 
-This directory contains Kubernetes RBAC resources for granting read access to Tempo traces for authenticated users.
-
-## Files
-
-- **cluster-role-reader.yaml**: Defines a ClusterRole that grants `get` permissions on Tempo traces for `dev` and `prod` tenants
-- **cluster-role-binding-reader.yaml**: Binds the ClusterRole to all authenticated users (`system:authenticated` group)
-
 ## Deployment
 
 To deploy these resources to OpenShift, run:
 
 ```bash
 oc apply -f cluster-role-reader.yaml cluster-role-binding-reader.yaml
-```
-
-Or apply them separately:
-
-```bash
-oc apply -f cluster-role-reader.yaml
-oc apply -f cluster-role-binding-reader.yaml
 ```
 
 ## Fetching Resources from Cluster
@@ -31,23 +17,16 @@ oc get clusterrole tempostack-traces-reader -o yaml
 oc get clusterrolebinding tempostack-traces-reader -o yaml
 ```
 
-Or save them to files:
+To retrieve TempoMonolithic resources from the observability namespace:
 
 ```bash
-oc get clusterrole tempostack-traces-reader -o yaml > cluster-role-reader.yaml
-oc get clusterrolebinding tempostack-traces-reader -o yaml > cluster-role-binding-reader.yaml
-```
-
-To retrieve TempoMonolithic resources from the default namespace:
-
-```bash
-oc get tempomonolithic -n default -o yaml
+oc get tempomonolithic -n observability -o yaml
 ```
 
 Or get a specific TempoMonolithic resource by name:
 
 ```bash
-oc get tempomonolithic <name> -n default -o yaml
+oc get tempomonolithic <name> -n observability -o yaml
 ```
 
 ## Prerequisites

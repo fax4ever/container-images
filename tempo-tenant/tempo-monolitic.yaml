@@ -2,7 +2,7 @@ apiVersion: tempo.grafana.com/v1alpha1
 kind: TempoMonolithic
 metadata:
   name: sample
-  namespace: default
+  namespace: observability
 spec:
   ingestion:
     otlp:
