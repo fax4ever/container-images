@@ -4,22 +4,22 @@ This directory contains Kubernetes RBAC resources for granting read access to Te
 
 ## Files
 
-- **cluster-role.yaml**: Defines a ClusterRole that grants `get` permissions on Tempo traces for `dev` and `prod` tenants
-- **cluster-role-binding.yaml**: Binds the ClusterRole to all authenticated users (`system:authenticated` group)
+- **cluster-role-reader.yaml**: Defines a ClusterRole that grants `get` permissions on Tempo traces for `dev` and `prod` tenants
+- **cluster-role-binding-reader.yaml**: Binds the ClusterRole to all authenticated users (`system:authenticated` group)
 
 ## Deployment
 
 To deploy these resources to OpenShift, run:
 
 ```bash
-oc apply -f cluster-role.yaml cluster-role-binding.yaml
+oc apply -f cluster-role-reader.yaml cluster-role-binding-reader.yaml
 ```
 
 Or apply them separately:
 
 ```bash
-oc apply -f cluster-role.yaml
-oc apply -f cluster-role-binding.yaml
+oc apply -f cluster-role-reader.yaml
+oc apply -f cluster-role-binding-reader.yaml
 ```
 
 ## Fetching Resources from Cluster
@@ -34,8 +34,8 @@ oc get clusterrolebinding tempostack-traces-reader -o yaml
 Or save them to files:
 
 ```bash
-oc get clusterrole tempostack-traces-reader -o yaml > cluster-role.yaml
-oc get clusterrolebinding tempostack-traces-reader -o yaml > cluster-role-binding.yaml
+oc get clusterrole tempostack-traces-reader -o yaml > cluster-role-reader.yaml
+oc get clusterrolebinding tempostack-traces-reader -o yaml > cluster-role-binding-reader.yaml
 ```
 
 To retrieve TempoMonolithic resources from the default namespace:
